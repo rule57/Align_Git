@@ -102,6 +102,7 @@
 		24BC1F402B634F6F000A3B18 /* Template4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Template4.png; sourceTree = "<group>"; };
 		24BC1F482B635521000A3B18 /* DevClear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DevClear.png; sourceTree = "<group>"; };
 		24BC249B2B637A3A0094252B /* Intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.mp4; sourceTree = "<group>"; };
+		24BC249D2B6386950094252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				24BC1EE52B634DFF000A3B18 /* AppDelegate.swift */,
+				24BC249D2B6386950094252B /* README.md */,
 				24BC1EFB2B634E74000A3B18 /* GalleryManager.swift */,
 				24BC1EE72B634DFF000A3B18 /* SceneDelegate.swift */,
 				24BC1EF92B634E41000A3B18 /* AppState.swift */,
