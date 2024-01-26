@@ -49,7 +49,7 @@
 		24BC1F442B634F6F000A3B18 /* Template2.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BC1F3F2B634F6F000A3B18 /* Template2.png */; };
 		24BC1F452B634F6F000A3B18 /* Template4.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BC1F402B634F6F000A3B18 /* Template4.png */; };
 		24BC1F492B635522000A3B18 /* DevClear.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BC1F482B635521000A3B18 /* DevClear.png */; };
-		24BC249A2B636AAF0094252B /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 24BC24992B636AAF0094252B /* Intro.mp4 */; };
+		24BC249C2B637A3A0094252B /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 24BC249B2B637A3A0094252B /* Intro.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,7 +101,7 @@
 		24BC1F3F2B634F6F000A3B18 /* Template2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Template2.png; sourceTree = "<group>"; };
 		24BC1F402B634F6F000A3B18 /* Template4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Template4.png; sourceTree = "<group>"; };
 		24BC1F482B635521000A3B18 /* DevClear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DevClear.png; sourceTree = "<group>"; };
-		24BC24992B636AAF0094252B /* Intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = Intro.mp4; path = ../../../../Desktop/Intro.mp4; sourceTree = "<group>"; };
+		24BC249B2B637A3A0094252B /* Intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,7 +151,7 @@
 				24BC1F392B634F67000A3B18 /* Hopefully final_3.mp4 */,
 				24BC1F382B634F67000A3B18 /* Tut.mp4 */,
 				24BC1F372B634F67000A3B18 /* Tutorial_4Secs.mp4 */,
-				24BC24992B636AAF0094252B /* Intro.mp4 */,
+				24BC249B2B637A3A0094252B /* Intro.mp4 */,
 				24BC1F3A2B634F67000A3B18 /* Tutorial.mp4 */,
 				24BC1F1E2B634F57000A3B18 /* Align0.png */,
 				24BC1F132B634F57000A3B18 /* Align1.png */,
@@ -253,7 +253,7 @@
 				24BC1F352B634F57000A3B18 /* SaveButton.png in Resources */,
 				24BC1F2E2B634F57000A3B18 /* Align4.png in Resources */,
 				24BC1F412B634F6F000A3B18 /* Template0.png in Resources */,
-				24BC249A2B636AAF0094252B /* Intro.mp4 in Resources */,
+				24BC249C2B637A3A0094252B /* Intro.mp4 in Resources */,
 				24BC1F342B634F57000A3B18 /* CircleTemplate.png in Resources */,
 				24BC1F232B634F57000A3B18 /* DevRoom.png in Resources */,
 				24BC1F302B634F57000A3B18 /* SaveGif.png in Resources */,
