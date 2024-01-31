@@ -17,5 +17,10 @@ How we gon do that from what I can think of rn:
 6. Get screenshots for the app preview on the app store
 7. Optimize the ui of ViewController to be universal
     -Everything should be easy to get padding on it but i could be very very wrong (NOT MANDATORY)
+    
+    
+    
+1/31/24
+1. SO! Heres the current Idea that i like.  I had an issue where i had to delete an in-progress array, how bout we make that top left area a way to store in progress arrays.  
 
 

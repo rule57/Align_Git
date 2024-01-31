@@ -38,18 +38,18 @@ struct SettingsView: View {
     let newCan = "New_Canvas"
     
     var body: some View {
-        //_________VideoGalleryView______
-        NavigationView {
-                    List(videoURLs, id: \.self) { url in
-                        NavigationLink(destination: VideoPlayer(player: AVPlayer(url: url)).frame(height: 300)) {
-                            VideoThumbnailView(videoURL: url)
-                        }
-                    }
-                    .navigationBarTitle("Video Gallery", displayMode: .inline)
-                    .onAppear(perform: loadVideos)
-                }
-        //_________VideoGalleryView______
-        
+//        //_________VideoGalleryView______
+//        NavigationView {
+//                    List(videoURLs, id: \.self) { url in
+//                        NavigationLink(destination: VideoPlayer(player: AVPlayer(url: url)).frame(height: 300)) {
+//                            VideoThumbnailView(videoURL: url)
+//                        }
+//                    }
+//                    .navigationBarTitle("Video Gallery", displayMode: .inline)
+//                    .onAppear(perform: loadVideos)
+//                }
+//        //_________VideoGalleryView______
+//        
         
         ScrollView{
             VStack{
