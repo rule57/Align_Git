@@ -19,6 +19,10 @@ class AppState: ObservableObject {
             NotificationCenter.default.post(name: .selectedOptionChanged, object: nil)
         }
     }
+    
+    // Add images2DArray as a Published property
+    @Published var images2DArray: [[[String]]] = []
+
 
     init() {
         selectedOption = UserDefaults.standard.integer(forKey: UserDefaultsKeys.selectedOption)

@@ -82,7 +82,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             updateImageDisplay()
         }
     }
-    
+    var capturedImageFilenamesStorage: [[String]] = []
     var capturedImageFilenames: [String] = []
     
     
@@ -130,7 +130,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     }()
     
     
-    
     private let shutterButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         button.layer.cornerRadius = 50
@@ -159,6 +158,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         if let savedFilenames = UserDefaults.standard.array(forKey: "capturedImageFilenamesKey") as? [String] {
             capturedImageFilenames = savedFilenames
         }
+        
+//        if let savedStorage = UserDefaults.standard.array(forKey: "capturedImageFilenamesStorageKey") a? [] {
+//            capturedImageFilenamesStorage = savedStorage
+//        }
         
 //        topRectangle = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
 //            topRectangle.backgroundColor = .blue // Set a background color for visibility
@@ -234,6 +237,46 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
     }
     
+    //2D Array Sthuff
+    
+    var images2DArray: [[String]] = []
+
+    // Load existing data from UserDefaults, if any
+    func loadImages2DArray() {
+        if let data = UserDefaults.standard.data(forKey: "images2DArrayKey"),
+           let array = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String]] {
+            images2DArray = array
+        }
+    }
+    
+    func updateImages2DArray(with newImages: [String]) {
+        let selectedOption = UserDefaults.standard.integer(forKey: "selectedOption")
+        
+        // Ensure the array is large enough
+        while images2DArray.count <= selectedOption {
+            images2DArray.append([])
+        }
+        
+        // Update the specific sub-array
+        images2DArray[selectedOption] = newImages
+        saveImages2DArray()
+    }
+    
+    func saveImages2DArray() {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: images2DArray, options: [])
+            UserDefaults.standard.set(data, forKey: "images2DArrayKey")
+        } catch {
+            print("Error serializing 2D array of images: \(error)")
+        }
+    }
+    
+    func getCurrentImageFilenames() -> [String] {
+        let selectedOption = UserDefaults.standard.integer(forKey: "selectedOption")
+        return (selectedOption < images2DArray.count) ? images2DArray[selectedOption] : []
+    }
+
+    
     @objc func handlePinchGesture(_ recognizer: UIPinchGestureRecognizer) {
         if recognizer.state == .began || recognizer.state == .changed {
             showTemplateOnCapturedImageView()
@@ -254,14 +297,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     
     @objc func showTemplate(){
-        let currentSelectedOption = AppState.shared.selectedOption
+        //let currentSelectedOption = AppState.shared.selectedOption
         // let count = UserDefaults.standard.integer(forKey: photoCounterKey)
         view.bringSubviewToFront(imageView)
         
-        if currentSelectedOption < 5{
+        if isToggleTrue {
             hideCustomMode()
             imageView.isHidden = false
-            guard let template = UIImage(named: "Template\(currentSelectedOption).png") else { return }
+            guard let template = UIImage(named: "Template0.png") else { return }
             imageView.image = template
             
             
@@ -289,8 +332,8 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     //CIV TEMPLATE STUFF______________
     
     func setupTemplateImageView() {
-        let currentSelectedOption = AppState.shared.selectedOption
-        guard let templateImage = UIImage(named: "Template\(currentSelectedOption).png") else { return }
+        //let currentSelectedOption = AppState.shared.selectedOption
+        guard let templateImage = UIImage(named: "Template0.png") else { return }
         
         let imageView = UIImageView(image: templateImage)
         imageView.contentMode = .scaleAspectFit
@@ -386,6 +429,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     
     @objc func handleImageTap() {
+        let capturedImageFilenames = getCurrentImageFilenames()
         let photoCounter = UserDefaults.standard.integer(forKey: photoCounterKey)
         
         print("handleImageTap count:")
@@ -954,7 +998,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         
         setupImageReviewButtons()
         setupGestureRecognizers() // Make sure this is active
-        setupTemplateImageView()
+        //setupTemplateImageView()
         
     }
     
@@ -1003,15 +1047,38 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     
     
+//    func saveAndStoreImage(_ image: UIImage) {
+//        //let number = selectedOption
+//        let filename = "image\(Date().timeIntervalSince1970).jpeg"
+//        if saveImage(image, named: filename) {
+//            capturedImageFilenames.append(filename)
+//            UserDefaults.standard.set(capturedImageFilenames, forKey: "capturedImageFilenamesKey")
+//            
+//            // Optionally, you can add a slight delay to ensure unique filenames
+//            Thread.sleep(forTimeInterval: 0.001)
+//        }
+//    }
     func saveAndStoreImage(_ image: UIImage) {
+        let selectedOption = UserDefaults.standard.integer(forKey: "selectedOption")
+
+        // Ensure the 2D array is large enough
+        while images2DArray.count <= selectedOption {
+            images2DArray.append([])
+        }
+
         let filename = "image\(Date().timeIntervalSince1970).jpeg"
         if saveImage(image, named: filename) {
-            capturedImageFilenames.append(filename)
-            UserDefaults.standard.set(capturedImageFilenames, forKey: "capturedImageFilenamesKey")
+            // Append the filename to the appropriate sub-array
+            images2DArray[selectedOption].append(filename)
+
+            // Save the updated 2D array to UserDefaults
+            saveImages2DArray()
+
             // Optionally, you can add a slight delay to ensure unique filenames
             Thread.sleep(forTimeInterval: 0.001)
         }
     }
+
     
     // Inside your ViewController class
     // EDITING PORTION _____
@@ -1226,8 +1293,38 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     
     
+//    func updateImageDisplay() {
+//        let count = capturedImageFilenames.count
+//        
+//        // Clear all images first
+//        picture1.image = nil
+//        picture2.image = nil
+//        picture3.image = nil
+//        customPicture.image = nil
+//        
+//        // Helper function to safely load images
+//        func safelyLoadImage(named name: String) -> UIImage? {
+//            return loadImage(named: name) ?? nil
+//        }
+//        
+//        if count >= 1 {
+//            picture3.image = safelyLoadImage(named: capturedImageFilenames[count - 1])
+//            customPicture.image = safelyLoadImage(named: capturedImageFilenames[count - 1])
+//        }
+//        if count >= 2 {
+//            picture2.image = safelyLoadImage(named: capturedImageFilenames[count - 2])
+//        }
+//        if count >= 3 {
+//            picture1.image = safelyLoadImage(named: capturedImageFilenames[count - 3])
+//        }
+//        
+//        updateIndicator()
+//    }
+    
     func updateImageDisplay() {
-        let count = capturedImageFilenames.count
+        let selectedOption = UserDefaults.standard.integer(forKey: "selectedOption")
+        let currentFilenames = (selectedOption < images2DArray.count) ? images2DArray[selectedOption] : []
+        let count = currentFilenames.count
         
         // Clear all images first
         picture1.image = nil
@@ -1241,18 +1338,19 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
         }
         
         if count >= 1 {
-            picture3.image = safelyLoadImage(named: capturedImageFilenames[count - 1])
-            customPicture.image = safelyLoadImage(named: capturedImageFilenames[count - 1])
+            picture3.image = safelyLoadImage(named: currentFilenames[count - 1])
+            customPicture.image = safelyLoadImage(named: currentFilenames[count - 1])
         }
         if count >= 2 {
-            picture2.image = safelyLoadImage(named: capturedImageFilenames[count - 2])
+            picture2.image = safelyLoadImage(named: currentFilenames[count - 2])
         }
         if count >= 3 {
-            picture1.image = safelyLoadImage(named: capturedImageFilenames[count - 3])
+            picture1.image = safelyLoadImage(named: currentFilenames[count - 3])
         }
         
         updateIndicator()
     }
+
     
     
     
@@ -1363,7 +1461,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             updateToggleButtonImage()
     }
     
-    private var isToggleTrue = true // The boolean value to track the state
+    var isToggleTrue = true // The boolean value to track the state
 
     private func updateToggleButtonImage() {
         let imageName = isToggleTrue ? "ToggleTrue.png" : "ToggleFalse.png"
@@ -1373,27 +1471,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     @objc private func toggleButtonTapped() {
         isToggleTrue.toggle()
         updateToggleButtonImage()
-        updateCurrentSelectedOption()
+        //updateCurrentSelectedOption()
     }
     
-    private func updateCurrentSelectedOption() {
-        if isToggleTrue {
-            // Set CurrentSelectedOption to its previous value between 0 and 4
-            // You need to have a way to remember the last selected option
-            if AppState.shared.selectedOption != 5{
-                AppState.shared.selectedOption = previousSelectedOption
-            }else{
-                AppState.shared.selectedOption = 0
-            }
-            //AppState.shared.selectedOption = previousSelectedOption
-        } else {
-            // When the toggle is false, set CurrentSelectedOption to 5
+//    private func updateCurrentSelectedOption() {
+//        if isToggleTrue {
+//            // Set CurrentSelectedOption to its previous value between 0 and 4
+//            // You need to have a way to remember the last selected option
 //            if AppState.shared.selectedOption != 5{
-//                previousSelectedOption = AppState.shared.selectedOption
+//                AppState.shared.selectedOption = previousSelectedOption
+//            }else{
+//                AppState.shared.selectedOption = 0
 //            }
-            AppState.shared.selectedOption = 5
-        }
-    }
+//            //AppState.shared.selectedOption = previousSelectedOption
+//        } else {
+//            // When the toggle is false, set CurrentSelectedOption to 5
+////            if AppState.shared.selectedOption != 5{
+////                previousSelectedOption = AppState.shared.selectedOption
+////            }
+//            AppState.shared.selectedOption = 5
+//        }
+//    }
     
     
     
